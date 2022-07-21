@@ -5,8 +5,8 @@ import cors from "cors";
 const server = express(); // This server is deaf
 const URL = "destinationsDB";
 
-//server.listen(8000); // Told the server to listen on port 3000
-const PORT = 8000;
+//serveer listens on port available or 8000.
+const PORT = process.env.PORT || 8000;
 
 //just to conole to make sure it is listening
 server.listen(PORT, () => {
@@ -19,7 +19,8 @@ server.get(
   "/destinations",
   (req, res, next) => {
     console.log("middleware hit"); //is always hit
-    //send it to the next line
+    //send it to the next line\
+    res.send(destinationsDB);
     next();
   },
   async (req, res) => {
