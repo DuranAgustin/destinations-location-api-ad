@@ -1,12 +1,19 @@
+import { default as axios } from "axios";
+import express from "express";
+import cors from "cors";
+
 const express = require("express");
 const server = express(); // This server is deaf
 const URL = "./destinationsDB";
+
 //server.listen(8000); // Told the server to listen on port 3000
 const PORT = 8000;
+
 //just to conole to make sure it is listening
 server.listen(PORT, () => {
   console.log(`Server listening on port:${PORT}`);
 });
+
 server.use(cors());
 
 server.get(
