@@ -1,6 +1,7 @@
-import { default as axios } from "axios";
+//import { default as axios } from "axios";
 import express from "express";
 import cors from "cors";
+import { filterDestinations as filter } from "./helpers.js";
 
 const server = express(); // This server is deaf
 
@@ -17,8 +18,8 @@ server.use(cors());
 server.get(
   "/destinations",
   (req, res) => {
-    res.send(destinationsDB);
-    next();
+    const city = req.query.city; //takes in the quesrt
+    filter({ city, destinationsDB, res });
   }
   // async (req, res) => {
   //   try {
@@ -43,3 +44,10 @@ const destinationsDB = {
       "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80",
   },
 };
+//aa
+
+//localhost:3000/destionations/city/sanberanadino
+server.get("/destinations/city/:myCity", (req, res) => {
+  const city = req.params["myCity"];
+  filter({ city, destinationsDB, res });
+});
