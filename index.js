@@ -7,9 +7,9 @@ const PORT = 8000;
 server.listen(PORT, () => {
   console.log(`Server listening on port:${PORT}`);
 });
-app.use(cors());
+server.use(cors());
 
-app.get(
+server.get(
   "/",
   (req, res, next) => {
     console.log("middleware hit"); //is always hit
