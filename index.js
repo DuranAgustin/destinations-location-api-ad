@@ -2,9 +2,8 @@ import { default as axios } from "axios";
 import express from "express";
 import cors from "cors";
 
-const express = require("express");
 const server = express(); // This server is deaf
-const URL = "./destinationsDB";
+const URL = "destinationsDB";
 
 //server.listen(8000); // Told the server to listen on port 3000
 const PORT = 8000;
@@ -16,22 +15,11 @@ server.listen(PORT, () => {
 
 server.use(cors());
 
-server.get(
-  "/",
-  (req, res, next) => {
-    console.log("middleware hit"); //is always hit
-    //send it to the next line
-    next();
-  },
-  async (req, res) => {
-    try {
-      const response = await axios.get(URL);
-      res.send(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
+server.get("/destinations", (req, res) => {
+  console.log("middleware hit"); //is always hit
+  //send it to the next line
+  res.send(destinationsDB);
+});
 
 const destinationsDB = {
   123456: {
