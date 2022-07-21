@@ -2,11 +2,29 @@ const express = require("express");
 const server = express(); // This server is deaf
 
 //server.listen(8000); // Told the server to listen on port 3000
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
 //just to conole to make sure it is listening
 server.listen(PORT, () => {
   console.log(`Server listening on port:${PORT}`);
 });
+app.use(cors());
+
+app.get(
+  "/",
+  (req, res, next) => {
+    console.log("middleware hit"); //is always hit
+    //send it to the next line
+    next();
+  },
+  async (req, res) => {
+    try {
+      const response = await axios.get(URL);
+      res.send(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 const destinationsDB = {
   123456: {
