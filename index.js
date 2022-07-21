@@ -15,11 +15,21 @@ server.listen(PORT, () => {
 
 server.use(cors());
 
-server.get("/destinations", (req, res) => {
-  console.log("middleware hit"); //is always hit
-  //send it to the next line
-  res.send(destinationsDB);
-});
+server.get(
+  "/destinations",
+  (req, res, next) => {
+    console.log("middleware hit"); //is always hit
+    //send it to the next line
+    next();
+  },
+  async (req, res) => {
+    try {
+      res.send(destinationsDB);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 const destinationsDB = {
   123456: {
