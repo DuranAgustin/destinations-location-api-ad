@@ -1,53 +1,25 @@
-//import { default as axios } from "axios";
+// using require to import => we are importing CommonJS module
+// const express = require("express");
+
+// using import keyword to import => we are importing ES module
+
 import express from "express";
 import cors from "cors";
-import { filterDestinations as filter } from "./helpers.js";
-
+import destinationsRouter from "./Routes/destinations.js";
 const server = express(); // This server is deaf
 
-//serveer listens on port available or 8000.
-const PORT = process.env.PORT || 8000;
-
-//just to conole to make sure it is listening
-server.listen(PORT, () => {
-  console.log(`Server listening on port:${PORT}`);
-});
-
+// Middleware Setup
 server.use(cors());
+server.use(express.json()); //parses incoming requests with JSON payloads
+server.use("/destinations", destinationsRouter);
+// const PORT = process.env.PORT || 3000;
+let PORT;
+if (process.env.PORT !== undefined) {
+  PORT = process.env.PORT;
+} else {
+  PORT = 3000;
+}
 
-server.get(
-  "/destinations",
-  (req, res) => {
-    const city = req.query.city; //takes in the quesrt
-    filter({ city, destinationsDB, res });
-  }
-  // async (req, res) => {
-  //   try {
-  //     res.send(destinationsDB);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-);
-
-const destinationsDB = {
-  123456: {
-    destination: "Eiffel Tower",
-    location: "Paris",
-    photo:
-      "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  },
-  234567: {
-    destination: "Big Ben",
-    location: "London",
-    photo:
-      "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80",
-  },
-};
-//aa
-
-//localhost:3000/destionations/city/sanberanadino
-server.get("/destinations/city/:myCity", (req, res) => {
-  const city = req.params["myCity"];
-  filter({ city, destinationsDB, res });
-});
+server.listen(PORT, () => {
+  console.log(`Listening on port: ${PORT}`);
+}); // Told the server to listen on port available port (when deployed) or 3000 when local
